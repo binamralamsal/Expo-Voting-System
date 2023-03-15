@@ -34,7 +34,7 @@ export default async function handler(
         const people = (await People.findOne({
           token: vote,
         })) as any as IPeople;
-        if (!people) return;
+        if (!people) continue;
 
         usersList.push(people);
       }

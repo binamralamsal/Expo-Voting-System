@@ -39,8 +39,9 @@ const SingleProjectPage = () => {
 
   if (!projectData) return <LoadingOverlay visible={true} overlayBlur={2} />;
 
-  const rows = projectData.users.map((user) => (
+  const rows = projectData.users.map((user, index) => (
     <tr key={user._id}>
+      <td>{index + 1}</td>
       <td>{user.name}</td>
       <td>{user.phoneNumber}</td>
       <td>{user.token}</td>
@@ -52,9 +53,7 @@ const SingleProjectPage = () => {
       <Container size={600} my={40}>
         <Title>Project</Title>
         <Text mt={"xl"}>Project Title: {projectData.project.name}</Text>
-        <Text mt={"xs"}>
-          Number of votes: {projectData.project.votes.length}
-        </Text>
+        <Text mt={"xs"}>Number of votes: {projectData.users.length}</Text>
 
         <Title size={"h4"} mt={"xl"} order={2}>
           Voters List
@@ -62,6 +61,7 @@ const SingleProjectPage = () => {
         <Table mt="sm">
           <thead>
             <tr>
+              <th>S.n.</th>
               <th>Name</th>
               <th>Phone Number</th>
               <th>Token</th>
