@@ -16,7 +16,7 @@ import { VoteProjectCredentialsDTO, voteProjectSchema } from "@/validators";
 import { axios } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { IProject } from "@/models/project";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
 
@@ -31,6 +31,7 @@ function Home() {
       projectId: "",
     },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -42,6 +43,7 @@ function Home() {
   const { data: projectsData } = useQuery(["projects"], getProjects);
 
   const handleVoteProject = async (data: VoteProjectCredentialsDTO) => {
+    setIsSubmitting(true);
     await axios.post("/api/vote-project", data);
 
     showNotification({
@@ -52,6 +54,7 @@ function Home() {
         projectsData?.projects.find((p) => p._id === data.projectId)?.name
       }`,
     });
+    setIsSubmitting(false);
   };
 
   const projects = (projectsData?.projects || []).map((project) => ({
@@ -105,7 +108,13 @@ function Home() {
                 description="If you have already voted a project, then it will replace your previous project"
               />
 
-              <Button fullWidth mt="xl" size="lg" type="submit">
+              <Button
+                fullWidth
+                mt="xl"
+                size="lg"
+                type="submit"
+                loading={isSubmitting}
+              >
                 Vote Project
               </Button>
             </form>

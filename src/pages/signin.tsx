@@ -54,7 +54,7 @@ const SignIn = () => {
         title: "Logged in successfully",
         message: "Explore the dashboard",
       });
-      return router.push("/");
+      return router.push("/projects");
     }
 
     if (response?.error) {
