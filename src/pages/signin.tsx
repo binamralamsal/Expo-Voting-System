@@ -79,7 +79,7 @@ const SignIn = () => {
         Welcome back!
       </Title>
       <Text color="dimmed" size="md" align="center" mt={5} weight="bold">
-        Club Portal
+        Expo 2023
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">

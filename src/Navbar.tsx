@@ -84,7 +84,7 @@ export const Navbar = () => {
       <Header height={60} px="md">
         <Container size="xl">
           <Group position="apart" sx={{ height: 60 }}>
-            <Anchor>Club Portal</Anchor>
+            <Anchor>Expo 2023</Anchor>
             <Group
               sx={{ height: "100%" }}
               spacing={0}
