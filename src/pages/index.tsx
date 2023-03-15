@@ -1,11 +1,74 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] })
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/router";
+import {
+  Button,
+  Container,
+  LoadingOverlay,
+  Paper,
+  Select,
+  Text,
+  TextInput,
+  Title,
+} from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
+import {
+  NewProjectCredentialsDTO,
+  projectSchema,
+  VoteProjectCredentialsDTO,
+  voteProjectSchema,
+} from "@/validators";
+import { axios } from "@/lib/axios";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { IProject } from "@/models/project";
+import { useEffect } from "react";
+import { showNotification } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
+const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+function Home() {
+  const router = useRouter();
+
+  const form = useForm<VoteProjectCredentialsDTO>({
+    validate: zodResolver(voteProjectSchema),
+    validateInputOnBlur: true,
+    initialValues: {
+      token: "",
+      projectId: "",
+    },
+  });
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (router.query.id)
+      form.setFieldValue("projectId", router.query.id as string);
+  }, []);
+
+  const { data: projectsData } = useQuery(["projects"], getProjects);
+
+  const handleVoteProject = async (data: VoteProjectCredentialsDTO) => {
+    await axios.post("/api/vote-project", data);
+
+    showNotification({
+      icon: <IconCheck size={16} />,
+      color: "teal",
+      title: "Voted!!!",
+      message: `Thank you! We have counted your vote for ${
+        projectsData?.projects.find((p) => p._id === data.projectId)?.name
+      }`,
+    });
+  };
+
+  const projects = (projectsData?.projects || []).map((project) => ({
+    value: project._id,
+    label: project.name,
+  }));
+
   return (
     <>
       <Head>
@@ -14,110 +77,57 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
+      <main>
+        <Container size={420} my={40}>
+          <Title
+            align="center"
+            sx={(theme) => ({
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              fontWeight: 900,
+            })}
+          >
+            Welcome back!
+          </Title>
+          <Text color="dimmed" size="md" align="center" mt={5} weight="bold">
+            Vote Project
+          </Text>
+
+          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+            <form onSubmit={form.onSubmit(handleVoteProject)}>
+              <TextInput
+                label="Token"
+                {...form.getInputProps("token")}
+                error={form.errors.token}
+                size="lg"
               />
-            </a>
-          </div>
-        </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
+              <Select
+                mt="md"
+                searchable
+                label="Project"
+                size="lg"
+                placeholder="Pick one"
+                error={form.errors.projectId}
+                {...form.getInputProps("projectId")}
+                data={projects}
+              />
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+              <Button fullWidth mt="xl" size="lg" type="submit">
+                Vote Project
+              </Button>
+            </form>
+          </Paper>
+        </Container>
       </main>
     </>
-  )
+  );
 }
+const getProjects = (): Promise<{
+  status: "OK" | "ERROR";
+  message: string;
+  projects: IProject[];
+}> => {
+  return axios.get("/api/project");
+};
+
+export default Home;
