@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NextApp, { AppContext } from "next/app";
 import { getCookie, setCookie } from "cookies-next";
 import Head from "next/head";
@@ -12,6 +12,8 @@ import {
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
+import { useRouter } from "next/router";
+import { NavigationProgress, nprogress } from "@mantine/nprogress";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,12 +62,35 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             <ModalsProvider>
               <Component {...pageProps} />
               <Notifications />
+              <RouterTransition />
             </ModalsProvider>
           </MantineProvider>
         </ColorSchemeProvider>
       </QueryClientProvider>
     </>
   );
+}
+
+export function RouterTransition() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleStart = (url: string) =>
+      url !== router.asPath && nprogress.start();
+    const handleComplete = () => nprogress.complete();
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, [router.asPath]);
+
+  return <NavigationProgress autoReset={true} />;
 }
 
 App.getInitialProps = async (appContext: AppContext) => {

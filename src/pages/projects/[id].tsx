@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IProject } from "@/models/project";
 import { IUser } from "@/models/user";
 import { IPeople } from "@/models/people";
+import { Navbar } from "@/Navbar";
 
 const getProjects = (
   id: string
@@ -46,25 +47,30 @@ const SingleProjectPage = () => {
     </tr>
   ));
   return (
-    <Container size={600} my={40}>
-      <Title>Project</Title>
-      <Text mt={"xl"}>Project Title: {projectData.project.name}</Text>
-      <Text mt={"xs"}>Number of votes: {projectData.project.votes.length}</Text>
+    <>
+      <Navbar />
+      <Container size={600} my={40}>
+        <Title>Project</Title>
+        <Text mt={"xl"}>Project Title: {projectData.project.name}</Text>
+        <Text mt={"xs"}>
+          Number of votes: {projectData.project.votes.length}
+        </Text>
 
-      <Title size={"h4"} mt={"xl"} order={2}>
-        Voters List
-      </Title>
-      <Table mt="sm">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Token</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </Container>
+        <Title size={"h4"} mt={"xl"} order={2}>
+          Voters List
+        </Title>
+        <Table mt="sm">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone Number</th>
+              <th>Token</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </Container>
+    </>
   );
 };
 

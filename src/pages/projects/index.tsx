@@ -1,11 +1,12 @@
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/router";
-import { Container, LoadingOverlay, Title } from "@mantine/core";
+import { Button, Container, Flex, LoadingOverlay, Title } from "@mantine/core";
 import { axios } from "@/lib/axios";
 import { Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { IProject } from "@/models/project";
 import Link from "next/link";
+import { Navbar } from "@/Navbar";
 
 const getProjects = (): Promise<{
   status: "ERROR" | "OK";
@@ -37,18 +38,27 @@ const PeoplesPage = () => {
     </tr>
   ));
   return (
-    <Container size={600} my={40}>
-      <Title>Projects</Title>
-      <Table mt="xl">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Votes</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </Container>
+    <>
+      <Navbar />
+
+      <Container size={600} my={40}>
+        <Flex justify="space-between" align="center">
+          <Title>Projects</Title>
+          <Button component={Link} href="/add-project">
+            Add Project
+          </Button>
+        </Flex>
+        <Table mt="xl">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Votes</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </Container>
+    </>
   );
 };
 

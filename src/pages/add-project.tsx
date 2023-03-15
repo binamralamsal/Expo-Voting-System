@@ -13,6 +13,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { NewProjectCredentialsDTO, projectSchema } from "@/validators";
 import { axios } from "@/lib/axios";
 import { modals } from "@mantine/modals";
+import { Navbar } from "@/Navbar";
 
 const AddProject = () => {
   const form = useForm<NewProjectCredentialsDTO>({
@@ -42,34 +43,38 @@ const AddProject = () => {
   };
 
   return (
-    <Container size={420} my={40}>
-      <Title
-        align="center"
-        sx={(theme) => ({
-          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-          fontWeight: 900,
-        })}
-      >
-        Welcome back!
-      </Title>
-      <Text color="dimmed" size="md" align="center" mt={5} weight="bold">
-        Add Project
-      </Text>
+    <>
+      <Navbar />
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <form onSubmit={form.onSubmit(handleAddPeople)}>
-          <TextInput
-            label="Name"
-            {...form.getInputProps("name")}
-            error={form.errors.name}
-          />
+      <Container size={420} my={40}>
+        <Title
+          align="center"
+          sx={(theme) => ({
+            fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+            fontWeight: 900,
+          })}
+        >
+          Welcome back!
+        </Title>
+        <Text color="dimmed" size="md" align="center" mt={5} weight="bold">
+          Add Project
+        </Text>
 
-          <Button fullWidth mt="xl" type="submit">
-            Add Project
-          </Button>
-        </form>
-      </Paper>
-    </Container>
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <form onSubmit={form.onSubmit(handleAddPeople)}>
+            <TextInput
+              label="Name"
+              {...form.getInputProps("name")}
+              error={form.errors.name}
+            />
+
+            <Button fullWidth mt="xl" type="submit">
+              Add Project
+            </Button>
+          </form>
+        </Paper>
+      </Container>
+    </>
   );
 };
 

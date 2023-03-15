@@ -7,6 +7,7 @@ specifiers:
   '@mantine/hooks': ^6.0.2
   '@mantine/modals': ^6.0.2
   '@mantine/notifications': ^6.0.2
+  '@mantine/nprogress': ^6.0.2
   '@tabler/icons-react': ^2.10.0
   '@tanstack/react-query': ^4.26.1
   '@types/bcryptjs': ^2.4.2
@@ -39,6 +40,7 @@ dependencies:
   '@mantine/hooks': 6.0.2_react@18.2.0
   '@mantine/modals': 6.0.2_reujnkpez4ozmj6vonlofpozxe
   '@mantine/notifications': 6.0.2_reujnkpez4ozmj6vonlofpozxe
+  '@mantine/nprogress': 6.0.2_reujnkpez4ozmj6vonlofpozxe
   '@tabler/icons-react': 2.10.0_react@18.2.0
   '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
   '@types/bcryptjs': 2.4.2
@@ -388,6 +390,21 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
+    dev: false
+
+  /@mantine/nprogress/6.0.2_reujnkpez4ozmj6vonlofpozxe:
+    resolution: {integrity: sha512-P5nWqPwwc1d4ixLpbx2vAhw9oAngfOz8LGb+zO1DZg1mSiXPn9u+lGkrKETy0rjYgFDd1TPUXNgue//OYfgfZg==}
+    peerDependencies:
+      '@mantine/core': 6.0.2
+      '@mantine/hooks': 6.0.2
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 6.0.2_md2nfwiomeeos7ogkicwnxcafa
+      '@mantine/hooks': 6.0.2_react@18.2.0
+      '@mantine/utils': 6.0.2_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@mantine/styles/6.0.2_keyspdss4kub3atek752gc6fle:
