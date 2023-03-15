@@ -96,9 +96,6 @@ export const Navbar = () => {
               <Link href="/peoples" className={classes.link}>
                 Peoples
               </Link>
-              <Link href="/contact" className={classes.link}>
-                Contact
-              </Link>
             </Group>
             <Group className={classes.hiddenMobile}>
               <Switch
@@ -141,14 +138,11 @@ export const Navbar = () => {
             color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
           />
 
-          <Link onClick={closeDrawer} href="/" className={classes.link}>
-            Home
+          <Link onClick={closeDrawer} href="/projects" className={classes.link}>
+            Projects
           </Link>
-          <Link onClick={closeDrawer} href="/about" className={classes.link}>
-            About
-          </Link>
-          <Link onClick={closeDrawer} href="/contact" className={classes.link}>
-            Contact
+          <Link onClick={closeDrawer} href="/peoples" className={classes.link}>
+            Peoples
           </Link>
         </ScrollArea>
       </Drawer>
