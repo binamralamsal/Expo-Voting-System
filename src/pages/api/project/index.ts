@@ -38,25 +38,26 @@ export default async function handler(
         .status(404)
         .json({ status: "ERROR", message: "User not found!" });
 
-    // if (req.method === "POST") {
-    //   const parsed = projectSchema.safeParse(req.body);
-    //   if (!parsed.success)
-    //     return res.status(422).json({
-    //       status: "ERROR",
-    //       message: "Validation Error Occurred",
-    //       error: parsed.error,
-    //     });
-    //
-    //   const { data } = parsed;
-    //
-    //   const project = await Project.create(data);
-    //
-    //   return res.json({
-    //     status: "OK",
-    //     project,
-    //     message: "Project created successfully",
-    //   });
-    // }
+    if (req.method === "POST") {
+      const parsed = projectSchema.safeParse(req.body);
+      if (!parsed.success)
+        return res.status(422).json({
+          status: "ERROR",
+          message: "Validation Error Occurred",
+          error: parsed.error,
+        });
+
+      const { data } = parsed;
+
+      const project = await Project.create(data);
+
+      return res.json({
+        status: "OK",
+        project,
+        message: "Project created successfully",
+      });
+    }
+    2;
   } catch (error) {
     return res
       .status(400)
