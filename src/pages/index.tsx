@@ -44,20 +44,17 @@ function Home() {
 
   const handleVoteProject = async (data: VoteProjectCredentialsDTO) => {
     setIsSubmitting(true);
-    try {
-      await axios.post("/api/vote-project", data);
+    await axios.post("/api/vote-project", data);
 
-      showNotification({
-        icon: <IconCheck size={16} />,
-        color: "teal",
-        title: "Voted!!!",
-        message: `Thank you! We have counted your vote for ${
-          projectsData?.projects.find((p) => p._id === data.projectId)?.name
-        }`,
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    showNotification({
+      icon: <IconCheck size={16} />,
+      color: "teal",
+      title: "Voted!!!",
+      message: `Thank you! We have counted your vote for ${
+        projectsData?.projects.find((p) => p._id === data.projectId)?.name
+      }`,
+    });
+    setIsSubmitting(false);
   };
 
   const projects = (projectsData?.projects || []).map((project) => ({
