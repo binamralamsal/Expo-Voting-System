@@ -15,7 +15,7 @@ export default async function handler(
 
   try {
     if (req.method === "GET") {
-      const projects = await Project.find().select("-votes");
+      const projects = await Project.find();
 
       return res.json({ status: "OK", projects });
     }
