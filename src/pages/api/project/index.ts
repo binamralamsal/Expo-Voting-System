@@ -14,23 +14,17 @@ export default async function handler(
   );
 
   try {
+    if (req.method === "GET") {
+      const projects = await Project.find().select("-votes");
+
+      return res.json({ status: "OK", projects });
+    }
+
     let user;
     try {
       user = await getCurrentUserDetails({ req, res });
     } catch (error) {
       //   Empty
-    }
-
-    if (req.method === "GET") {
-      let projects;
-
-      if (!user) {
-        projects = await Project.find().select("-votes");
-      } else {
-        projects = await Project.find();
-      }
-
-      return res.json({ status: "OK", projects });
     }
 
     if (!user)
