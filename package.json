@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new-user": "ts-node --esm src/utils/createUser.ts",
-"votes": "ts-node --esm test2.ts"
+    "new-user": "ts-node --esm src/utils/createUser.ts"
   },
   "type": "module",
   "dependencies": {

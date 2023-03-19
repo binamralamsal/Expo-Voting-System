@@ -5,7 +5,6 @@ export interface IPeople {
   name: string;
   phoneNumber: string;
   token: string;
-  createdAt: string;
 }
 
 const peopleSchema = new mongoose.Schema<IPeople>(
